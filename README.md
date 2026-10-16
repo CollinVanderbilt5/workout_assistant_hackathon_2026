@@ -1,7 +1,5 @@
 # RepRadar: A muscle tracking app for all your fitness needs
 
-# MuscleMap
-
 **See your training. Find your gaps. Build a balanced physique.**
 
 MuscleMap is an interactive fitness tracker that visualizes your training progress through a 3D human muscle model. Instead of relying solely on workout logs and spreadsheets, MuscleMap lets you see which muscle groups you're training consistently and which may need more attention.
