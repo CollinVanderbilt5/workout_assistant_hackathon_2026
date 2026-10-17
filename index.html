@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <div id="root"></div>
+
+<body>
+	<div id="root"></div>
 	<script type="importmap">
       {
         "imports": {
@@ -11,19 +12,70 @@
         }
       }
     </script>
-    <script type="module">
-      import React from "react";
-      import { createRoot } from "react-dom/client";
-	  import Model from "react-body-highlighter";
+	<script type="module">
+		import React, {useState} from "react";
+		import { createRoot } from "react-dom/client";
+		import Model from "react-body-highlighter";
 
-	  const data = [
-        { name: "Bench Press", muscles: ["chest", "triceps", "front-deltoids"] },
-        { name: "Squat", muscles: ["quadriceps", "gluteal"] },
-      ];
+		// placeholder
+		async function askChatbot(text) {
+			console.log("Query:", text);
+			return ["biceps", "chest"];
+		}
 
-      createRoot(document.getElementById("root")).render(
-        React.createElement(Model, {data, type: "posterior", style: { width: "20rem", padding: "2rem" }})
-      );
-    </script>
-  </body>
+		function App() {
+			const [data, setData] = useState([
+				{ name: "Bench Press", muscles: ["chest", "triceps", "front-deltoids"] },
+				{ name: "Squat", muscles: ["quadriceps", "gluteal"] },
+			]);
+			const [text, setText] = useState("");
+			const [loading, setLoading] = useState(false);
+			const handleSubmit = async (e) => {
+				e.preventDefault();
+				if (!text.trim()) return;
+
+				setLoading(true);
+				const muscles = await askChatbot(text);
+				setData((prev) => [...prev, { name: text, muscles }]);
+				setText("");
+				setLoading(false);
+			};
+
+			const handleClick = ({ muscle, data }) => {
+				const { exercises, frequency } = data;
+				alert(`You clicked the ${muscle}`);
+			}
+			return React.createElement(
+				"div",
+				{style: {padding: "2rem"}},
+				React.createElement(
+					"form",
+					{onSubmit: handleSubmit},
+					React.createElement("input", {
+						type: "text",
+						value: text,
+						placeholder: "Describe a workout",
+						onChange: (e) => setText(e.target.value),
+					}),
+					React.createElement(
+						"button",
+						{type: "submit", disabled: loading},
+						loading ? "Working..." : "Submit"
+					)
+				),
+				React.createElement(Model, {
+					data,
+					type: "anterior",
+					onClick: handleClick,
+					style: { width: "20rem", padding: "2rem" },
+				})
+			);
+		}
+
+		createRoot(document.getElementById("root")).render(
+			React.createElement(App)
+		);
+	</script>
+</body>
+
 </html>
