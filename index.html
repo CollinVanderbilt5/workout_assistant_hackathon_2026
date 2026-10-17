@@ -1,29 +1,670 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <div id="root"></div>
-	<script type="importmap">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f5f0" />
+    <title>RepRadar | Muscle Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --paper: #0d1310;
+        --white: #171f1a;
+        --ink: #edf3ed;
+        --muted: #a0aea4;
+        --line: #303d34;
+        --green: #c8f169;
+        --green-dark: #c8f169;
+        --orange: #ff895f;
+        --cyan: #72e4d0;
+        --soft: #222d26;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-width: 320px; background: var(--paper); }
+      button, input, select { font: inherit; }
+      button { color: inherit; }
+      button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+      .shell { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+      .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { display: flex; align-items: center; gap: 11px; font-size: 17px; font-weight: 800; letter-spacing: 0; }
+      .brand-mark { width: 31px; height: 31px; border-radius: 9px; display: grid; place-items: center; background: var(--green); }
+      .brand-mark svg { width: 19px; height: 19px; }
+      .top-meta { display: flex; align-items: center; gap: 10px; font: 11px "DM Mono", monospace; color: var(--muted); text-transform: uppercase; }
+      .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #82b52c; }
+      main { padding: 36px 0 64px; }
+      .page-heading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; gap: 20px; }
+      .eyebrow { margin: 0 0 7px; color: var(--muted); font: 11px "DM Mono", monospace; letter-spacing: 0; text-transform: uppercase; }
+      h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: 0; }
+      .session-date { color: var(--muted); font: 12px "DM Mono", monospace; padding-bottom: 4px; }
+      .dashboard { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr); gap: 18px; align-items: stretch; }
+      .panel { background: var(--white); border: 1px solid var(--line); border-radius: 8px; }
+      .map-panel { min-height: 490px; padding: 22px 24px 20px; display: flex; flex-direction: column; overflow: hidden; }
+      .panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+      .panel-heading h2, .section-heading h2 { margin: 0; font-size: 16px; letter-spacing: 0; }
+      .panel-kicker { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+      .segmented { display: flex; padding: 3px; border-radius: 6px; background: var(--soft); }
+      .segment { min-width: 70px; border: 0; padding: 8px 11px; border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; font-size: 11px; font-weight: 800; }
+      .segment[aria-pressed="true"] { background: var(--green); color: #111811; }
+      .model-wrap { flex: 1; min-height: 330px; display: grid; place-items: center; padding-top: 8px; }
+      .body-model { width: min(100%, 430px); height: 350px; display: flex; justify-content: center; align-items: center; }
+      .body-model svg { max-height: 100%; max-width: 100%; }
+      .model-legend { display: flex; justify-content: center; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+      .legend-swatch { width: 10px; height: 10px; border-radius: 3px; background: #f28a5b; }
+      .map-empty { max-width: 250px; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .map-empty strong { display: block; margin-bottom: 4px; color: var(--ink); }
+      .side-stack { display: grid; grid-template-rows: auto 1fr; gap: 18px; }
+      .summary-panel { padding: 22px; }
+      .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 19px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+      .stat { min-height: 86px; padding: 13px 14px; background: var(--white); }
+      .stat-value { display: block; font-size: 25px; font-weight: 800; line-height: 1.1; }
+      .stat-label { display: block; margin-top: 6px; color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
+      .coverage { padding: 20px 22px; min-height: 0; }
+      .coverage-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+      .coverage-count { color: var(--green-dark); font: 11px "DM Mono", monospace; }
+      .coverage-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; padding: 0; list-style: none; }
+      .muscle-chip { padding: 6px 9px; border: 1px solid var(--line); border-radius: 4px; color: #a2aea5; font-size: 10px; }
+      .muscle-chip.is-trained { border-color: #728d3e; background: #2b3b23; color: #d5f78e; }
+      .coverage-note { margin: 13px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+      .workout-panel { margin-top: 18px; padding: 22px 24px 24px; }
+      .workout-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+      .workout-top .panel-kicker { margin-top: 4px; }
+      .entry-count { font: 11px "DM Mono", monospace; color: var(--muted); }
+      .workout-actions { display: flex; align-items: center; gap: 12px; }
+      .finish-button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 5px; background: var(--white); cursor: pointer; font-size: 11px; font-weight: 800; }
+      .finish-button:hover:not(:disabled) { background: var(--soft); }
+      .finish-button:disabled { color: #9aa19b; cursor: not-allowed; }
+      .ai-mapper { margin: 0 0 18px; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
+      .ai-mapper h3 { margin: 0; font-size: 13px; }
+      .ai-mapper .panel-kicker { margin: 4px 0 12px; }
+      .ai-form-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: end; }
+      .ai-field { display: grid; gap: 6px; }
+      .ai-field label { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
+      .ai-field textarea { width: 100%; min-height: 76px; resize: vertical; border: 1px solid var(--line); border-radius: 5px; padding: 10px 11px; color: var(--ink); background: #101713; font-size: 12px; line-height: 1.5; }
+      .ai-field textarea::placeholder { color: #849187; }
+      .ai-button { min-height: 42px; padding: 0 14px; border: 0; border-radius: 5px; background: var(--orange); color: #1b120e; cursor: pointer; font-size: 11px; font-weight: 800; white-space: nowrap; }
+      .ai-button:hover:not(:disabled) { background: #ffa184; }
+      .ai-button:disabled { opacity: .55; cursor: not-allowed; }
+      .ai-note { min-height: 16px; margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+      .ai-results { display: grid; gap: 7px; margin-top: 12px; }
+      .ai-result { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 5px; }
+      .ai-result-name { font-size: 11px; font-weight: 800; }
+      .ai-result-muscles { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+      .ai-result-details { margin-top: 4px; color: var(--cyan); font: 10px "DM Mono", monospace; }
+      .ai-remove { flex: 0 0 auto; border: 0; padding: 4px 0 4px 8px; background: transparent; color: #ff9d7d; cursor: pointer; font-size: 10px; font-weight: 700; }
+      .form-grid { display: grid; grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(90px, .8fr)) auto; gap: 10px; align-items: end; }
+      .field { display: grid; gap: 6px; }
+      .field label { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
+      .field input, .field select { width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 5px; padding: 0 11px; color: var(--ink); background: #101713; font-size: 12px; }
+      .field input::placeholder { color: #a0a8a2; }
+      .primary-button { min-height: 42px; padding: 0 17px; border: 0; border-radius: 5px; background: var(--green); color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 800; white-space: nowrap; }
+      .primary-button:hover { background: #b7e35a; }
+      .form-error { min-height: 18px; margin: 8px 0 0; color: #a3432d; font-size: 11px; }
+      .exercise-list { display: grid; gap: 8px; margin-top: 4px; }
+      .exercise-row { display: grid; grid-template-columns: minmax(150px, 1.4fr) repeat(3, minmax(75px, .55fr)) auto auto; gap: 12px; align-items: center; min-height: 62px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 5px; }
+      .exercise-name { min-width: 0; font-size: 12px; font-weight: 800; }
+      .exercise-category { display: block; margin-top: 3px; color: var(--muted); font: 10px "DM Mono", monospace; }
+      .row-detail { color: #d8e1da; font-size: 11px; white-space: nowrap; }
+      .row-detail small { display: block; margin-bottom: 3px; color: var(--muted); font: 9px "DM Mono", monospace; text-transform: uppercase; }
+      .row-actions { display: flex; gap: 5px; }
+      .text-button { border: 1px solid var(--line); border-radius: 4px; padding: 7px 9px; background: white; cursor: pointer; font-size: 10px; font-weight: 700; }
+      .text-button:hover { background: var(--soft); }
+      .remove-button { color: #ff9d7d; }
+      .list-empty { padding: 19px 12px; border: 1px dashed #cbd2ca; border-radius: 5px; color: var(--muted); text-align: center; font-size: 12px; }
+      .history-panel { margin-top: 18px; padding: 22px 24px; }
+      .history-list { display: grid; gap: 8px; margin-top: 16px; }
+      .history-session { border: 1px solid var(--line); border-radius: 5px; }
+      .history-session summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 14px; cursor: pointer; list-style-position: inside; }
+      .history-date { font-size: 12px; font-weight: 800; }
+      .history-totals { color: var(--muted); font: 10px "DM Mono", monospace; text-align: right; }
+      .history-entries { display: grid; gap: 7px; padding: 0 14px 14px; }
+      .history-entry { display: flex; justify-content: space-between; gap: 12px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; }
+      .history-entry span:last-child { color: var(--muted); text-align: right; }
+      .split-panel { margin-top: 18px; padding: 22px 24px; }
+      .split-button { min-height: 36px; padding: 0 12px; border: 0; border-radius: 5px; background: var(--cyan); color: #10201c; cursor: pointer; font-size: 11px; font-weight: 800; }
+      .split-button:disabled { opacity: .55; cursor: not-allowed; }
+      .split-summary { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+      .split-days { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+      .split-day { padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: #121a15; }
+      .split-day h3 { margin: 0; font-size: 13px; }
+      .split-focus { margin: 7px 0 10px; color: var(--cyan); font: 10px "DM Mono", monospace; }
+      .split-exercises { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+      .split-exercise { display: flex; justify-content: space-between; gap: 10px; color: var(--ink); font-size: 11px; }
+      .split-exercise small { color: var(--muted); white-space: nowrap; }
+      .split-message { min-height: 18px; margin: 10px 0 0; color: var(--muted); font-size: 11px; }
+      footer { padding: 18px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+      @media (max-width: 820px) {
+        .dashboard { grid-template-columns: 1fr; }
+        .side-stack { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+        .coverage { min-height: 100%; }
+        .form-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .field:first-child { grid-column: span 2; }
+        .primary-button { grid-column: span 2; }
+      }
+      @media (max-width: 560px) {
+        .shell { width: min(100% - 28px, 1240px); }
+        .topbar { height: 64px; }
+        main { padding-top: 25px; }
+        .page-heading { align-items: flex-start; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+        .session-date { padding: 0; }
+        .map-panel { min-height: 440px; padding: 17px 14px; }
+        .body-model { height: 310px; }
+        .panel-heading { align-items: flex-start; }
+        .segment { min-width: 57px; padding: 8px 7px; }
+        .side-stack { grid-template-columns: 1fr; gap: 12px; }
+        .summary-panel, .coverage { padding: 17px; }
+        .workout-panel { padding: 18px 14px; margin-top: 12px; }
+        .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .field:first-child { grid-column: 1 / -1; }
+        .primary-button { grid-column: 1 / -1; }
+        .exercise-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+        .exercise-name { grid-column: 1 / -1; }
+        .row-detail { padding-left: 2px; }
+        .row-actions { grid-column: 1 / -1; justify-content: flex-end; }
+        .ai-form-grid { grid-template-columns: 1fr; }
+        .ai-button { width: 100%; }
+        .ai-result { gap: 8px; }
+        .split-panel { padding: 18px 14px; }
+        .split-panel .workout-top { align-items: flex-start; flex-direction: column; }
+        .split-button { width: 100%; }
+        .split-exercise { align-items: flex-start; flex-direction: column; gap: 3px; }
+        .history-panel { padding: 18px 14px; }
+        .history-session summary { align-items: flex-start; flex-direction: column; gap: 5px; }
+        .history-totals { text-align: left; }
+        .history-entry { flex-direction: column; gap: 4px; }
+        .history-entry span:last-child { text-align: left; }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        main { animation: enter .38s ease-out both; }
+        @keyframes enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+      }
+    </style>
+    <script type="importmap">
       {
         "imports": {
-          "react": "https://esm.sh/react@18",
-          "react-dom/client": "https://esm.sh/react-dom@18/client",
+          "react": "https://esm.sh/react@19.3.1",
+          "react-dom/client": "https://esm.sh/react-dom@19.3.1/client",
           "react-body-highlighter": "https://esm.sh/react-body-highlighter@2.0.5?external=react,react-dom"
         }
       }
     </script>
+  </head>
+  <body>
+    <div id="root"></div>
     <script type="module">
       import React from "react";
       import { createRoot } from "react-dom/client";
-	  import Model from "react-body-highlighter";
+      import Model from "react-body-highlighter";
 
-	  const data = [
-        { name: "Bench Press", muscles: ["chest", "triceps", "front-deltoids"] },
-        { name: "Squat", muscles: ["quadriceps", "gluteal"] },
+      const h = React.createElement;
+      const storageKey = "repradar.current-workout.v1";
+      const historyStorageKey = "repradar.workout-history.v1";
+      const muscleLabels = {
+        chest: "Chest", triceps: "Triceps", "front-deltoids": "Front delts",
+        biceps: "Biceps", forearm: "Forearms", "back-deltoids": "Back delts",
+        trapezius: "Trapezius", "upper-back": "Upper back", "lower-back": "Lower back",
+        abs: "Abs", obliques: "Obliques", adductor: "Adductors", hamstring: "Hamstrings",
+        quadriceps: "Quadriceps", abductors: "Abductors", calves: "Calves", gluteal: "Glutes",
+        head: "Head", neck: "Neck"
+      };
+      const supportedMuscles = Object.keys(muscleLabels);
+      const exerciseLibrary = [
+        { id: "bench-press", name: "Bench Press", category: "Chest", equipment: "Barbell", muscles: ["chest", "triceps", "front-deltoids"] },
+        { id: "incline-press", name: "Incline Dumbbell Press", category: "Chest", equipment: "Dumbbell", muscles: ["chest", "front-deltoids", "triceps"] },
+        { id: "push-up", name: "Push-Up", category: "Chest", equipment: "Bodyweight", muscles: ["chest", "triceps"] },
+        { id: "overhead-press", name: "Overhead Press", category: "Shoulders", equipment: "Barbell", muscles: ["front-deltoids", "triceps"] },
+        { id: "triceps-pushdown", name: "Triceps Pushdown", category: "Arms", equipment: "Cable", muscles: ["triceps"] },
+        { id: "pull-up", name: "Pull-Up", category: "Back", equipment: "Bodyweight", muscles: ["upper-back", "biceps"] },
+        { id: "lat-pulldown", name: "Lat Pulldown", category: "Back", equipment: "Cable", muscles: ["upper-back", "biceps"] },
+        { id: "barbell-row", name: "Barbell Row", category: "Back", equipment: "Barbell", muscles: ["upper-back", "trapezius", "biceps"] },
+        { id: "biceps-curl", name: "Biceps Curl", category: "Arms", equipment: "Dumbbell", muscles: ["biceps", "forearm"] },
+        { id: "squat", name: "Squat", category: "Legs", equipment: "Barbell", muscles: ["quadriceps", "gluteal", "adductor"] },
+        { id: "leg-press", name: "Leg Press", category: "Legs", equipment: "Machine", muscles: ["quadriceps", "gluteal"] },
+        { id: "romanian-deadlift", name: "Romanian Deadlift", category: "Legs", equipment: "Barbell", muscles: ["hamstring", "gluteal", "lower-back"] },
+        { id: "leg-curl", name: "Leg Curl", category: "Legs", equipment: "Machine", muscles: ["hamstring"] },
+        { id: "leg-extension", name: "Leg Extension", category: "Legs", equipment: "Machine", muscles: ["quadriceps"] },
+        { id: "calf-raise", name: "Calf Raise", category: "Legs", equipment: "Machine", muscles: ["calves"] },
+        { id: "hip-thrust", name: "Hip Thrust", category: "Legs", equipment: "Barbell", muscles: ["gluteal", "hamstring"] },
+        { id: "plank", name: "Plank", category: "Core", equipment: "Bodyweight", muscles: ["abs", "obliques"] }
       ];
+      const exerciseById = Object.fromEntries(exerciseLibrary.map((exercise) => [exercise.id, exercise]));
 
-      createRoot(document.getElementById("root")).render(
-        React.createElement(Model, {data, type: "posterior", style: { width: "20rem", padding: "2rem" }})
-      );
+      function validateEntries(entries) {
+        if (!Array.isArray(entries)) return [];
+          const validEntries = [];
+          const seenIds = new Set();
+          for (const entry of entries) {
+            if (!entry || typeof entry.id !== "string" || seenIds.has(entry.id) ||
+              typeof entry.exerciseId !== "string" || !Object.hasOwn(exerciseById, entry.exerciseId) ||
+              !Number.isInteger(entry.sets) || entry.sets < 1 ||
+              !Number.isInteger(entry.reps) || entry.reps < 1 ||
+              !Number.isFinite(entry.weight) || entry.weight < 0) continue;
+            seenIds.add(entry.id);
+            validEntries.push({ ...entry, unit: "lb" });
+          }
+        return validEntries;
+      }
+
+      function validateAiFindings(findings) {
+        if (!Array.isArray(findings)) return [];
+        const validFindings = [];
+        const seenIds = new Set();
+        for (const finding of findings) {
+          if (!finding || typeof finding.id !== "string" || seenIds.has(finding.id) ||
+            typeof finding.name !== "string" || !finding.name.trim() || finding.name.length > 100 ||
+            !Array.isArray(finding.muscles) || finding.muscles.some((muscle) => !supportedMuscles.includes(muscle))) continue;
+          if ((finding.sets != null && (!Number.isInteger(finding.sets) || finding.sets < 1)) ||
+            (finding.reps != null && (!Number.isInteger(finding.reps) || finding.reps < 1)) ||
+            (finding.weightLb != null && (!Number.isFinite(finding.weightLb) || finding.weightLb < 0))) continue;
+          seenIds.add(finding.id);
+          validFindings.push({
+            id: finding.id,
+            name: finding.name.trim(),
+            muscles: [...new Set(finding.muscles)],
+            sets: finding.sets ?? null,
+            reps: finding.reps ?? null,
+            weightLb: finding.weightLb ?? null
+          });
+        }
+        return validFindings;
+      }
+
+      function readSavedWorkout() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+          if (!saved || saved.version !== 1 || !Array.isArray(saved.entries)) return [];
+          return validateEntries(saved.entries);
+        } catch {
+          return [];
+        }
+      }
+
+      function readSavedAiFindings() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+          return saved?.version === 1 ? validateAiFindings(saved.aiFindings) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function readWorkoutHistory() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(historyStorageKey) || "null");
+          if (!saved || saved.version !== 1 || !Array.isArray(saved.sessions)) return [];
+          return saved.sessions.flatMap((session) => {
+            if (!session || typeof session.id !== "string" || typeof session.completedAt !== "string" ||
+              !Number.isFinite(Date.parse(session.completedAt)) || !Array.isArray(session.entries)) return [];
+            const entries = validateEntries(session.entries);
+            const aiFindings = validateAiFindings(session.aiFindings);
+            if (entries.length !== session.entries.length || (!entries.length && !aiFindings.length)) return [];
+            return [{ ...session, entries, aiFindings }];
+          });
+        } catch {
+          return [];
+        }
+      }
+
+      function makeId() {
+        return globalThis.crypto?.randomUUID?.() || `entry-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      }
+
+      function renderHistorySession(session) {
+        const sessionSets = session.entries.reduce((sum, entry) => sum + entry.sets, 0) +
+          session.aiFindings.reduce((sum, finding) => sum + (finding.sets || 0), 0);
+        const sessionReps = session.entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0) +
+          session.aiFindings.reduce((sum, finding) => sum + (finding.sets && finding.reps ? finding.sets * finding.reps : 0), 0);
+        const sessionExerciseCount = session.entries.length + session.aiFindings.length;
+        const rows = session.entries.map((entry) => h("div", { className: "history-entry", key: entry.id },
+          h("span", null, exerciseById[entry.exerciseId].name),
+          h("span", null, `${entry.sets} sets · ${entry.reps} reps · ${entry.weight} lb`)));
+        session.aiFindings.forEach((finding) => rows.push(h("div", { className: "history-entry", key: finding.id },
+          h("span", null, `${finding.name} · Gemma map`),
+          h("span", null, [
+            finding.sets != null ? `${finding.sets} sets` : null,
+            finding.reps != null ? `${finding.reps} reps` : null,
+            finding.weightLb != null ? `${finding.weightLb} lb` : null,
+            finding.muscles.length ? finding.muscles.map((muscle) => muscleLabels[muscle]).join(", ") : "No supported muscle mapping"
+          ].filter(Boolean).join(" · ")))));
+        return h("details", { className: "history-session", key: session.id },
+          h("summary", null,
+            h("span", { className: "history-date" }, new Date(session.completedAt).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })),
+            h("span", { className: "history-totals" }, `${sessionExerciseCount} ${sessionExerciseCount === 1 ? "exercise" : "exercises"} · ${sessionSets} sets · ${sessionReps} reps`)),
+          h("div", { className: "history-entries" }, rows));
+      }
+
+      function WorkoutTextMapper({ description, onDescriptionChange, onSubmit, isAnalyzing, message, findings, entries, onRemoveFinding, onRemoveEntry }) {
+        return h("section", { className: "ai-mapper", "aria-labelledby": "ai-mapper-heading" },
+          h("h3", { id: "ai-mapper-heading" }, "Gemma muscle map"),
+          h("p", { className: "panel-kicker" }, "Describe your completed exercises in your own words"),
+          h("form", { onSubmit },
+            h("div", { className: "ai-form-grid" },
+              h("div", { className: "ai-field" },
+                h("label", { htmlFor: "ai-workout" }, "Workout description"),
+                h("textarea", { id: "ai-workout", value: description, maxLength: 4000, onChange: (event) => onDescriptionChange(event.target.value), placeholder: "Bench press, pull-ups, and squats", required: true })),
+              h("button", { className: "ai-button", type: "submit", disabled: isAnalyzing || !description.trim() }, isAnalyzing ? "Analyzing..." : "Map with Gemma")),
+            h("p", { className: "ai-note", role: "status", "aria-live": "polite" }, message || "Only stated sets, reps, and weight are counted; missing details stay unknown.")),
+          findings.length ? h("div", { className: "ai-results", "aria-label": "Gemma mapped exercises" }, findings.map((finding) =>
+            h("div", { className: "ai-result", key: finding.id },
+              h("div", null,
+                h("div", { className: "ai-result-name" }, finding.name),
+                h("div", { className: "ai-result-muscles" }, finding.muscles.length ? finding.muscles.map((muscle) => muscleLabels[muscle]).join(" · ") : "No supported muscle mapping"),
+                h("div", { className: "ai-result-details" }, [
+                  finding.sets != null ? `${finding.sets} sets` : null,
+                  finding.reps != null ? `${finding.reps} reps` : null,
+                  finding.weightLb != null ? `${finding.weightLb} lb` : null
+                ].filter(Boolean).join(" · ") || "No volume details stated")),
+              h("button", { type: "button", className: "ai-remove", onClick: () => onRemoveFinding(finding.id), "aria-label": `Remove AI mapping for ${finding.name}` }, "Remove")))) : null,
+          entries.length ? h("div", { className: "ai-results", "aria-label": "Previously logged exercises" }, entries.map((entry) => {
+            const exercise = exerciseById[entry.exerciseId];
+            return h("div", { className: "ai-result", key: entry.id },
+              h("div", null,
+                h("div", { className: "ai-result-name" }, `${exercise.name} · logged`),
+                h("div", { className: "ai-result-muscles" }, exercise.muscles.map((muscle) => muscleLabels[muscle]).join(" · ")),
+                h("div", { className: "ai-result-details" }, `${entry.sets} sets · ${entry.reps} reps · ${entry.weight} lb`)),
+              h("button", { type: "button", className: "ai-remove", onClick: () => onRemoveEntry(entry.id), "aria-label": `Remove ${exercise.name}` }, "Remove"));
+          })) : null);
+      }
+
+      function WorkoutHistory({ sessions }) {
+        const sessionLabel = sessions.length === 1 ? "session" : "sessions";
+        const emptyState = h("div", { className: "list-empty" }, "Completed workouts will appear here. Your active session stays separate.");
+        return h("section", { className: "panel history-panel", "aria-labelledby": "history-heading" },
+          h("div", { className: "workout-top", style: { marginBottom: 0 } },
+            h("div", null,
+              h("h2", { id: "history-heading", style: { margin: 0, fontSize: "16px" } }, "Workout history"),
+              h("p", { className: "panel-kicker" }, "Completed sessions, saved separately")),
+            h("span", { className: "entry-count" }, `${sessions.length} ${sessionLabel}`)),
+          h("div", { className: "history-list" }, sessions.length ? sessions.map(renderHistorySession) : emptyState));
+      }
+
+      function WorkoutSplit({ split, isLoading, message, onRecommend }) {
+        const header = h("div", { className: "workout-top" },
+          h("div", null,
+            h("h2", { id: "split-heading", style: { margin: 0, fontSize: "16px" } }, "Recommended training split"),
+            h("p", { className: "panel-kicker" }, "Prioritize muscle groups less represented in recent sessions")),
+          h("button", { type: "button", className: "split-button", onClick: onRecommend, disabled: isLoading }, isLoading ? "Building split..." : "Recommend a split"));
+        const days = split ? split.days.map((day, index) => {
+          const exercises = day.exercises.map((exercise, exerciseIndex) => h("li", {
+            className: "split-exercise",
+            key: `${exercise.name}-${exerciseIndex}`
+          }, h("span", null, exercise.name), h("small", null, `${exercise.sets} sets x ${exercise.reps} reps`)));
+          return h("article", { className: "split-day", key: `${day.name}-${index}` },
+            h("h3", null, day.name),
+            h("p", { className: "split-focus" }, day.focusMuscles.map((muscle) => muscleLabels[muscle]).join(" · ")),
+            h("ul", { className: "split-exercises" }, exercises));
+        }) : [];
+        const recommendation = split && h(React.Fragment, null,
+          h("p", { className: "split-summary" }, split.summary),
+          h("div", { className: "split-days" }, days));
+
+        return h("section", { className: "panel split-panel", "aria-labelledby": "split-heading" },
+          header,
+          h("p", { className: "split-message", role: "status", "aria-live": "polite" }, message || "Focus is based on recent session coverage, not a diagnosis of long-term undertraining."),
+          recommendation);
+      }
+
+      function MuscleMap({ entries, aiFindings, view }) {
+        const data = [
+          ...entries.map((entry) => ({
+          name: exerciseById[entry.exerciseId].name,
+          muscles: exerciseById[entry.exerciseId].muscles
+          })),
+          ...aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
+        ];
+        return h("div", { className: "body-model", "aria-label": `${view} muscle map` },
+          h(Model, {
+            data,
+            type: view,
+            highlightedColors: ["#f28a5b", "#e66c45", "#ca4f32"],
+            style: { width: "100%", height: "100%", padding: 0 },
+            svgStyle: { maxHeight: "100%", width: "auto" }
+          })
+        );
+      }
+
+      function App() {
+        const [entries, setEntries] = React.useState(readSavedWorkout);
+        const [aiFindings, setAiFindings] = React.useState(readSavedAiFindings);
+        const [sessions, setSessions] = React.useState(readWorkoutHistory);
+        const [view, setView] = React.useState("anterior");
+        const [aiDescription, setAiDescription] = React.useState("");
+        const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+        const [aiMessage, setAiMessage] = React.useState("");
+        const [split, setSplit] = React.useState(null);
+        const [isGeneratingSplit, setIsGeneratingSplit] = React.useState(false);
+        const [splitMessage, setSplitMessage] = React.useState("");
+
+        React.useEffect(() => {
+          try { localStorage.setItem(storageKey, JSON.stringify({ version: 1, entries, aiFindings })); } catch {}
+        }, [entries, aiFindings]);
+        React.useEffect(() => {
+          try { localStorage.setItem(historyStorageKey, JSON.stringify({ version: 1, sessions })); } catch {}
+        }, [sessions]);
+
+        const trained = new Set([
+          ...entries.flatMap((entry) => exerciseById[entry.exerciseId].muscles),
+          ...aiFindings.flatMap((finding) => finding.muscles)
+        ]);
+        const totalSets = entries.reduce((sum, entry) => sum + entry.sets, 0) +
+          aiFindings.reduce((sum, finding) => sum + (finding.sets || 0), 0);
+        const totalReps = entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0) +
+          aiFindings.reduce((sum, finding) => sum + (finding.sets && finding.reps ? finding.sets * finding.reps : 0), 0);
+        const distinctExercises = new Set([
+          ...entries.map((entry) => exerciseById[entry.exerciseId].name.toLowerCase()),
+          ...aiFindings.map((finding) => finding.name.toLowerCase())
+        ]).size;
+
+        async function analyzeWorkout(event) {
+          event.preventDefault();
+          const workout = aiDescription.trim();
+          if (!workout) return;
+          if (location.protocol === "file:") {
+            setAiMessage("Start the RepRadar server with npm run dev_start, then open http://localhost:3000 to use Gemma.");
+            return;
+          }
+          setIsAnalyzing(true);
+          setAiMessage("");
+          try {
+            const response = await fetch("/api/analyze-workout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ workout })
+            });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(payload.error || "Gemma could not analyze this workout.");
+            if (!Array.isArray(payload.exercises) || !payload.exercises.length || payload.exercises.length > 20) {
+              throw new Error("No exercises were identified. Try listing the exercises more clearly.");
+            }
+            const findings = payload.exercises.map((exercise) => {
+              if (!exercise || typeof exercise.name !== "string" || !exercise.name.trim() ||
+                !Array.isArray(exercise.muscles) || exercise.muscles.some((muscle) => !supportedMuscles.includes(muscle)) ||
+                (exercise.sets != null && (!Number.isInteger(exercise.sets) || exercise.sets < 1)) ||
+                (exercise.reps != null && (!Number.isInteger(exercise.reps) || exercise.reps < 1)) ||
+                (exercise.weightLb != null && (!Number.isFinite(exercise.weightLb) || exercise.weightLb < 0))) {
+                throw new Error("Gemma returned an unsupported muscle mapping. Please try again.");
+              }
+              return {
+                id: makeId(),
+                name: exercise.name.trim(),
+                muscles: [...new Set(exercise.muscles)],
+                sets: exercise.sets ?? null,
+                reps: exercise.reps ?? null,
+                weightLb: exercise.weightLb ?? null
+              };
+            });
+            setAiFindings(findings);
+            setAiMessage(`Mapped ${findings.length} ${findings.length === 1 ? "exercise" : "exercises"}. Missing volume details stay unknown.`);
+          } catch (error) {
+            setAiMessage(error.message || "Could not reach the Gemma service. Check that the server is running.");
+          } finally {
+            setIsAnalyzing(false);
+          }
+        }
+
+        async function recommendSplit() {
+          if (location.protocol === "file:") {
+            setSplitMessage("Start the RepRadar server with npm run dev_start, then open http://localhost:3000 to use Gemma.");
+            return;
+          }
+          setIsGeneratingSplit(true);
+          setSplitMessage("");
+          try {
+            const cutoff = Date.now() - 28 * 24 * 60 * 60 * 1000;
+            const recentSessions = sessions
+              .filter((session) => Date.parse(session.completedAt) >= cutoff)
+              .slice(0, 10)
+              .map((session) => ({
+                completedAt: session.completedAt,
+                exercises: [
+                  ...session.entries.map((entry) => ({ name: exerciseById[entry.exerciseId].name, muscles: exerciseById[entry.exerciseId].muscles })),
+                  ...session.aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
+                ]
+              }));
+            const activeExercises = [
+              ...entries.map((entry) => ({ name: exerciseById[entry.exerciseId].name, muscles: exerciseById[entry.exerciseId].muscles })),
+              ...aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
+            ];
+            if (activeExercises.length) recentSessions.unshift({ completedAt: new Date().toISOString(), exercises: activeExercises });
+
+            const response = await fetch("/api/recommend-split", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessions: recentSessions })
+            });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(payload.error || "Gemma could not recommend a split.");
+            if (!payload || typeof payload.summary !== "string" || !Array.isArray(payload.days) || payload.days.length < 2 || payload.days.length > 6) {
+              throw new Error("Gemma returned an invalid workout split.");
+            }
+            for (const day of payload.days) {
+              if (!day || typeof day.name !== "string" || !Array.isArray(day.focusMuscles) ||
+                day.focusMuscles.some((muscle) => !supportedMuscles.includes(muscle)) || !Array.isArray(day.exercises) ||
+                day.exercises.some((exercise) => !exercise || typeof exercise.name !== "string" ||
+                  !Array.isArray(exercise.muscles) || exercise.muscles.some((muscle) => !supportedMuscles.includes(muscle)) ||
+                  !Number.isInteger(exercise.sets) || !Number.isInteger(exercise.reps))) {
+                throw new Error("Gemma returned an unsupported workout split. Please try again.");
+              }
+            }
+            setSplit(payload);
+          } catch (error) {
+            setSplitMessage(error.message || "Could not reach Gemma. Check that the server is running.");
+          } finally {
+            setIsGeneratingSplit(false);
+          }
+        }
+
+        function finishWorkout() {
+          if (!entries.length && !aiFindings.length) return;
+          setSessions((current) => [{
+            id: makeId(),
+            completedAt: new Date().toISOString(),
+            entries: entries.map((entry) => ({ ...entry })),
+            aiFindings: aiFindings.map((finding) => ({ ...finding, muscles: [...finding.muscles] }))
+          }, ...current]);
+          setEntries([]);
+          setAiFindings([]);
+          setAiMessage("");
+        }
+
+        const stat = (value, label) => h("div", { className: "stat", key: label },
+          h("span", { className: "stat-value" }, value), h("span", { className: "stat-label" }, label));
+
+        const pageHeading = h("div", { className: "page-heading" },
+          h("div", null,
+            h("p", { className: "eyebrow" }, "Training overview / Phase 01"),
+            h("h1", null, "Muscle Map")),
+          h("div", { className: "session-date" }, new Date().toLocaleDateString(undefined, {
+            weekday: "short", month: "short", day: "numeric", year: "numeric"
+          })));
+
+        const mapPanel = h("article", { className: "panel map-panel" },
+          h("div", { className: "panel-heading" },
+            h("div", null,
+              h("h2", null, "Muscle activation"),
+              h("p", { className: "panel-kicker" }, entries.length || aiFindings.length ? "Highlights reflect today's logged and AI-mapped work" : "Log an exercise to light up your map")),
+            h("div", { className: "segmented", role: "group", "aria-label": "Anatomical view" },
+              ["anterior", "posterior"].map((side) => h("button", {
+                key: side,
+                type: "button",
+                className: "segment",
+                "aria-pressed": view === side,
+                onClick: () => setView(side)
+              }, side === "anterior" ? "Front" : "Back")))),
+          h("div", { className: "model-wrap" }, h(MuscleMap, { entries, aiFindings, view })),
+          !entries.length && !aiFindings.length && h("div", { className: "map-empty" },
+            h("strong", null, "Your session starts here"), "Describe a workout to map its muscles."),
+          h("div", { className: "model-legend" }, h("span", { className: "legend-swatch" }), "Logged / AI-mapped muscle groups"));
+
+        const summaryPanel = h("article", { className: "panel summary-panel" },
+          h("div", { className: "panel-heading" }, h("div", null,
+            h("h2", null, "Session totals"), h("p", { className: "panel-kicker" }, "Details stated in the workout log"))),
+          h("div", { className: "stats" },
+            stat(distinctExercises, "Exercises"), stat(totalSets, "Known sets"),
+            stat(totalReps, "Known reps"), stat(trained.size, "Muscle groups")));
+
+        const coveragePanel = h("article", { className: "panel coverage" },
+          h("div", { className: "coverage-head" },
+            h("h2", { style: { margin: 0, fontSize: "14px" } }, "Session coverage"),
+            h("span", { className: "coverage-count" }, `${trained.size} / ${supportedMuscles.length} groups`)),
+          h("ul", { className: "coverage-list" }, supportedMuscles.map((muscle) => h("li", {
+            key: muscle,
+            className: `muscle-chip${trained.has(muscle) ? " is-trained" : ""}`
+          }, muscleLabels[muscle]))),
+          h("p", { className: "coverage-note" }, "Unhighlighted groups were not mapped in this session; this is not a long-term training diagnosis."));
+
+        const workoutPanel = h("section", { className: "panel workout-panel", "aria-labelledby": "workout-heading" },
+          h("div", { className: "workout-top" },
+            h("div", null,
+              h("h2", { id: "workout-heading", style: { margin: 0, fontSize: "16px" } }, "Workout log"),
+              h("p", { className: "panel-kicker" }, "Describe the session and let Gemma map it")),
+            h("div", { className: "workout-actions" },
+              h("span", { className: "entry-count" }, `${entries.length} saved · ${aiFindings.length} AI mapped`),
+              h("button", {
+                type: "button",
+                className: "finish-button",
+                onClick: finishWorkout,
+                disabled: !entries.length && !aiFindings.length
+              }, "Finish & save"))),
+          h(WorkoutTextMapper, {
+            description: aiDescription,
+            onDescriptionChange: setAiDescription,
+            onSubmit: analyzeWorkout,
+            isAnalyzing,
+            message: aiMessage,
+            findings: aiFindings,
+            entries,
+            onRemoveFinding: (id) => setAiFindings((current) => current.filter((finding) => finding.id !== id)),
+            onRemoveEntry: (id) => setEntries((current) => current.filter((entry) => entry.id !== id))
+          }));
+
+        const dashboard = h("section", { className: "dashboard", "aria-label": "Workout overview" },
+          mapPanel,
+          h("div", { className: "side-stack" }, summaryPanel, coveragePanel));
+
+        return h(React.Fragment, null,
+          h("header", { className: "shell topbar" },
+            h("div", { className: "brand" },
+              h("span", { className: "brand-mark", "aria-hidden": "true" },
+                h("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.3", strokeLinecap: "round" },
+                  h("path", { d: "M4 12h4l2.2-6 3.6 12 2.2-6H20" }))),
+              "RepRadar"),
+            h("div", { className: "top-meta" }, h("span", { className: "live-dot" }), "Session in progress")),
+          h("main", { className: "shell" },
+            pageHeading,
+            dashboard,
+            workoutPanel,
+            h(WorkoutSplit, { split, isLoading: isGeneratingSplit, message: splitMessage, onRecommend: recommendSplit }),
+            h(WorkoutHistory, { sessions })),
+          h("footer", { className: "shell" }, "RepRadar saves active and completed sessions in this browser. AI mapping and split recommendations are estimates, not medical guidance."));
+      }
+
+      createRoot(document.getElementById("root")).render(h(App));
     </script>
   </body>
 </html>

@@ -2,29 +2,35 @@
 
 **See your training. Find your gaps. Build a balanced physique.**
 
-MuscleMap is an interactive fitness tracker that visualizes your training progress through a 3D human muscle model. Instead of relying solely on workout logs and spreadsheets, MuscleMap lets you see which muscle groups you're training consistently and which may need more attention.
+RepRadar is an interactive fitness tracker that visualizes current-session exercise mappings on a two-dimensional muscle model. Its coverage summaries describe recent logged sessions and are not a diagnosis of long-term training balance.
 
 ## Features
 
-- **Interactive 3D Muscle Map** — Explore a 3D human model with color-coded muscle groups that reflect your training status.
-- **Workout Tracking** — Log workouts and record exercises, sets, and reps.
-- **Automatic Muscle Tracking** — Automatically estimate which muscle groups are trained based on the exercises you perform.
-- **Visual Training Insights** — Quickly identify well-trained, undertrained, and neglected muscle groups.
-- **AI-Powered Workout Recommendations** — Get personalized workout suggestions and training splits based on your recent activity and goals.
+- **Interactive Muscle Map** — Switch between front and back views of the supported 2D anatomy model.
+- **AI Workout Logging** — Describe completed exercises in plain language; Gemma maps supported muscles and extracts only explicitly stated sets, reps, and weight.
+- **Session Coverage** — Review muscle groups represented in the active workout and recent history.
+- **Recommended Training Split** — Ask Gemma for a split that prioritizes groups seen less often in the recent workout history.
 - **Training History** — Track your workouts over time and monitor changes in your training balance.
 
 ## How It Works
 
-1. **Log a workout.** Enter your exercises manually or describe your workout in natural language.
-2. **Map exercises to muscles.** MuscleMap estimates the contribution of each exercise to the relevant muscle groups.
-3. **Visualize your training.** The 3D model updates to show which muscles are receiving sufficient attention and which may be falling behind.
-4. **Plan your next session.** AI-powered recommendations help you choose workouts that complement your recent training and goals.
+1. **Describe a completed workout.** Include sets, reps, or weight when you want those details counted.
+2. **Review the mapping.** Gemma identifies exercises and returns only supported muscle IDs; unspecified volume remains unknown.
+3. **See current coverage.** The two-dimensional model updates from active workout entries.
+4. **Plan a split.** Recommendations use recent session coverage as a planning signal, not as a claim that a muscle is chronically undertrained.
 
 ## Technology
 
-MuscleMap is built using modern web technologies, with an interactive 3D anatomy model and AI-assisted workout analysis.
+RepRadar uses React, Express, `react-body-highlighter`, and Gemma 4 MaaS on Google Cloud Agent Platform.
 
-*Specific frameworks, libraries, and services will be documented as implementation progresses.*
+## Run Locally
+
+1. Install Node.js 20.12 or later and run `npm install`.
+2. Copy `.env.example` to `.env`, then set `GEMMA_API_KEY` to a Google Cloud Gemini Enterprise Agent Platform API key and `GOOGLE_CLOUD_PROJECT` to its project ID. Never commit `.env`.
+3. Enable the Agent Platform API and Gemma 4 26B A4B IT MaaS model for that project.
+4. Run `npm run dev_start` and open `http://localhost:3000`.
+
+The workout mapper sends the user's text to Gemma 4 on the server. The API key is not sent to the browser. Gemma results are restricted to the muscle IDs supported by `react-body-highlighter`; set, rep, and weight values are counted only when explicitly stated.
 
 ## Project Goals
 
