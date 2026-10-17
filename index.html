@@ -79,32 +79,20 @@
       .finish-button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 5px; background: var(--white); cursor: pointer; font-size: 11px; font-weight: 800; }
       .finish-button:hover:not(:disabled) { background: var(--soft); }
       .finish-button:disabled { color: #9aa19b; cursor: not-allowed; }
-      .ai-mapper { margin: 0 0 18px; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
-      .ai-mapper h3 { margin: 0; font-size: 13px; }
-      .ai-mapper .panel-kicker { margin: 4px 0 12px; }
-      .ai-form-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: end; }
-      .ai-field { display: grid; gap: 6px; }
-      .ai-field label { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
-      .ai-field textarea { width: 100%; min-height: 76px; resize: vertical; border: 1px solid var(--line); border-radius: 5px; padding: 10px 11px; color: var(--ink); background: #101713; font-size: 12px; line-height: 1.5; }
-      .ai-field textarea::placeholder { color: #849187; }
-      .ai-button { min-height: 42px; padding: 0 14px; border: 0; border-radius: 5px; background: var(--orange); color: #1b120e; cursor: pointer; font-size: 11px; font-weight: 800; white-space: nowrap; }
-      .ai-button:hover:not(:disabled) { background: #ffa184; }
-      .ai-button:disabled { opacity: .55; cursor: not-allowed; }
-      .ai-note { min-height: 16px; margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
-      .ai-results { display: grid; gap: 7px; margin-top: 12px; }
-      .ai-result { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 5px; }
-      .ai-result-name { font-size: 11px; font-weight: 800; }
-      .ai-result-muscles { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
-      .ai-result-details { margin-top: 4px; color: var(--cyan); font: 10px "DM Mono", monospace; }
-      .ai-remove { flex: 0 0 auto; border: 0; padding: 4px 0 4px 8px; background: transparent; color: #ff9d7d; cursor: pointer; font-size: 10px; font-weight: 700; }
+      .entry-form { margin: 0 0 18px; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
       .form-grid { display: grid; grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(90px, .8fr)) auto; gap: 10px; align-items: end; }
       .field { display: grid; gap: 6px; }
       .field label { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
       .field input, .field select { width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 5px; padding: 0 11px; color: var(--ink); background: #101713; font-size: 12px; }
       .field input::placeholder { color: #a0a8a2; }
-      .primary-button { min-height: 42px; padding: 0 17px; border: 0; border-radius: 5px; background: var(--green); color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 800; white-space: nowrap; }
-      .primary-button:hover { background: #b7e35a; }
-      .form-error { min-height: 18px; margin: 8px 0 0; color: #a3432d; font-size: 11px; }
+      .primary-button { min-height: 42px; padding: 0 17px; border: 0; border-radius: 5px; background: var(--green); color: #172014; cursor: pointer; font-size: 12px; font-weight: 800; white-space: nowrap; }
+      .primary-button:hover { background: #d8ff89; }
+      .form-error { min-height: 18px; margin: 8px 0 0; color: #ff9d7d; font-size: 11px; }
+      .form-grid { display: grid; grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(90px, .8fr)) auto; gap: 10px; align-items: end; }
+      .field { display: grid; gap: 6px; }
+      .field label { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; }
+      .field input, .field select { width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 5px; padding: 0 11px; color: var(--ink); background: #101713; font-size: 12px; }
+      .field input::placeholder { color: #a0a8a2; }
       .exercise-list { display: grid; gap: 8px; margin-top: 4px; }
       .exercise-row { display: grid; grid-template-columns: minmax(150px, 1.4fr) repeat(3, minmax(75px, .55fr)) auto auto; gap: 12px; align-items: center; min-height: 62px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 5px; }
       .exercise-name { min-width: 0; font-size: 12px; font-weight: 800; }
@@ -125,18 +113,15 @@
       .history-entries { display: grid; gap: 7px; padding: 0 14px 14px; }
       .history-entry { display: flex; justify-content: space-between; gap: 12px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; }
       .history-entry span:last-child { color: var(--muted); text-align: right; }
-      .split-panel { margin-top: 18px; padding: 22px 24px; }
-      .split-button { min-height: 36px; padding: 0 12px; border: 0; border-radius: 5px; background: var(--cyan); color: #10201c; cursor: pointer; font-size: 11px; font-weight: 800; }
-      .split-button:disabled { opacity: .55; cursor: not-allowed; }
-      .split-summary { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.6; }
-      .split-days { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
-      .split-day { padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: #121a15; }
-      .split-day h3 { margin: 0; font-size: 13px; }
-      .split-focus { margin: 7px 0 10px; color: var(--cyan); font: 10px "DM Mono", monospace; }
-      .split-exercises { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
-      .split-exercise { display: flex; justify-content: space-between; gap: 10px; color: var(--ink); font-size: 11px; }
-      .split-exercise small { color: var(--muted); white-space: nowrap; }
-      .split-message { min-height: 18px; margin: 10px 0 0; color: var(--muted); font-size: 11px; }
+      .recommend-panel { margin-top: 18px; padding: 22px 24px; }
+      .recommend-note { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+      .recommend-list { display: grid; gap: 8px; margin-top: 14px; }
+      .recommend-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 5px; }
+      .recommend-name { font-size: 12px; font-weight: 800; }
+      .recommend-detail { margin-top: 4px; color: var(--cyan); font: 10px "DM Mono", monospace; }
+      .recommend-button { min-height: 34px; padding: 0 11px; border: 1px solid var(--line); border-radius: 4px; background: var(--soft); cursor: pointer; font-size: 10px; font-weight: 800; }
+      .recommend-button:hover { border-color: var(--cyan); }
+      .recommend-empty { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
       footer { padding: 18px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
       @media (max-width: 820px) {
         .dashboard { grid-template-columns: 1fr; }
@@ -166,13 +151,8 @@
         .exercise-name { grid-column: 1 / -1; }
         .row-detail { padding-left: 2px; }
         .row-actions { grid-column: 1 / -1; justify-content: flex-end; }
-        .ai-form-grid { grid-template-columns: 1fr; }
-        .ai-button { width: 100%; }
-        .ai-result { gap: 8px; }
-        .split-panel { padding: 18px 14px; }
-        .split-panel .workout-top { align-items: flex-start; flex-direction: column; }
-        .split-button { width: 100%; }
-        .split-exercise { align-items: flex-start; flex-direction: column; gap: 3px; }
+        .recommend-panel { padding: 18px 14px; }
+        .recommend-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
         .history-panel { padding: 18px 14px; }
         .history-session summary { align-items: flex-start; flex-direction: column; gap: 5px; }
         .history-totals { text-align: left; }
@@ -250,44 +230,11 @@
         return validEntries;
       }
 
-      function validateAiFindings(findings) {
-        if (!Array.isArray(findings)) return [];
-        const validFindings = [];
-        const seenIds = new Set();
-        for (const finding of findings) {
-          if (!finding || typeof finding.id !== "string" || seenIds.has(finding.id) ||
-            typeof finding.name !== "string" || !finding.name.trim() || finding.name.length > 100 ||
-            !Array.isArray(finding.muscles) || finding.muscles.some((muscle) => !supportedMuscles.includes(muscle))) continue;
-          if ((finding.sets != null && (!Number.isInteger(finding.sets) || finding.sets < 1)) ||
-            (finding.reps != null && (!Number.isInteger(finding.reps) || finding.reps < 1)) ||
-            (finding.weightLb != null && (!Number.isFinite(finding.weightLb) || finding.weightLb < 0))) continue;
-          seenIds.add(finding.id);
-          validFindings.push({
-            id: finding.id,
-            name: finding.name.trim(),
-            muscles: [...new Set(finding.muscles)],
-            sets: finding.sets ?? null,
-            reps: finding.reps ?? null,
-            weightLb: finding.weightLb ?? null
-          });
-        }
-        return validFindings;
-      }
-
       function readSavedWorkout() {
         try {
           const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
           if (!saved || saved.version !== 1 || !Array.isArray(saved.entries)) return [];
           return validateEntries(saved.entries);
-        } catch {
-          return [];
-        }
-      }
-
-      function readSavedAiFindings() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-          return saved?.version === 1 ? validateAiFindings(saved.aiFindings) : [];
         } catch {
           return [];
         }
@@ -301,9 +248,8 @@
             if (!session || typeof session.id !== "string" || typeof session.completedAt !== "string" ||
               !Number.isFinite(Date.parse(session.completedAt)) || !Array.isArray(session.entries)) return [];
             const entries = validateEntries(session.entries);
-            const aiFindings = validateAiFindings(session.aiFindings);
-            if (entries.length !== session.entries.length || (!entries.length && !aiFindings.length)) return [];
-            return [{ ...session, entries, aiFindings }];
+            if (entries.length !== session.entries.length || !entries.length) return [];
+            return [{ ...session, entries }];
           });
         } catch {
           return [];
@@ -315,60 +261,70 @@
       }
 
       function renderHistorySession(session) {
-        const sessionSets = session.entries.reduce((sum, entry) => sum + entry.sets, 0) +
-          session.aiFindings.reduce((sum, finding) => sum + (finding.sets || 0), 0);
-        const sessionReps = session.entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0) +
-          session.aiFindings.reduce((sum, finding) => sum + (finding.sets && finding.reps ? finding.sets * finding.reps : 0), 0);
-        const sessionExerciseCount = session.entries.length + session.aiFindings.length;
+        const sessionSets = session.entries.reduce((sum, entry) => sum + entry.sets, 0);
+        const sessionReps = session.entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0);
         const rows = session.entries.map((entry) => h("div", { className: "history-entry", key: entry.id },
           h("span", null, exerciseById[entry.exerciseId].name),
           h("span", null, `${entry.sets} sets · ${entry.reps} reps · ${entry.weight} lb`)));
-        session.aiFindings.forEach((finding) => rows.push(h("div", { className: "history-entry", key: finding.id },
-          h("span", null, `${finding.name} · Gemma map`),
-          h("span", null, [
-            finding.sets != null ? `${finding.sets} sets` : null,
-            finding.reps != null ? `${finding.reps} reps` : null,
-            finding.weightLb != null ? `${finding.weightLb} lb` : null,
-            finding.muscles.length ? finding.muscles.map((muscle) => muscleLabels[muscle]).join(", ") : "No supported muscle mapping"
-          ].filter(Boolean).join(" · ")))));
         return h("details", { className: "history-session", key: session.id },
           h("summary", null,
             h("span", { className: "history-date" }, new Date(session.completedAt).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })),
-            h("span", { className: "history-totals" }, `${sessionExerciseCount} ${sessionExerciseCount === 1 ? "exercise" : "exercises"} · ${sessionSets} sets · ${sessionReps} reps`)),
+            h("span", { className: "history-totals" }, `${session.entries.length} ${session.entries.length === 1 ? "exercise" : "exercises"} · ${sessionSets} sets · ${sessionReps} reps`)),
           h("div", { className: "history-entries" }, rows));
       }
 
-      function WorkoutTextMapper({ description, onDescriptionChange, onSubmit, isAnalyzing, message, findings, entries, onRemoveFinding, onRemoveEntry }) {
-        return h("section", { className: "ai-mapper", "aria-labelledby": "ai-mapper-heading" },
-          h("h3", { id: "ai-mapper-heading" }, "Gemma muscle map"),
-          h("p", { className: "panel-kicker" }, "Describe your completed exercises in your own words"),
-          h("form", { onSubmit },
-            h("div", { className: "ai-form-grid" },
-              h("div", { className: "ai-field" },
-                h("label", { htmlFor: "ai-workout" }, "Workout description"),
-                h("textarea", { id: "ai-workout", value: description, maxLength: 4000, onChange: (event) => onDescriptionChange(event.target.value), placeholder: "Bench press, pull-ups, and squats", required: true })),
-              h("button", { className: "ai-button", type: "submit", disabled: isAnalyzing || !description.trim() }, isAnalyzing ? "Analyzing..." : "Map with Gemma")),
-            h("p", { className: "ai-note", role: "status", "aria-live": "polite" }, message || "Only stated sets, reps, and weight are counted; missing details stay unknown.")),
-          findings.length ? h("div", { className: "ai-results", "aria-label": "Gemma mapped exercises" }, findings.map((finding) =>
-            h("div", { className: "ai-result", key: finding.id },
-              h("div", null,
-                h("div", { className: "ai-result-name" }, finding.name),
-                h("div", { className: "ai-result-muscles" }, finding.muscles.length ? finding.muscles.map((muscle) => muscleLabels[muscle]).join(" · ") : "No supported muscle mapping"),
-                h("div", { className: "ai-result-details" }, [
-                  finding.sets != null ? `${finding.sets} sets` : null,
-                  finding.reps != null ? `${finding.reps} reps` : null,
-                  finding.weightLb != null ? `${finding.weightLb} lb` : null
-                ].filter(Boolean).join(" · ") || "No volume details stated")),
-              h("button", { type: "button", className: "ai-remove", onClick: () => onRemoveFinding(finding.id), "aria-label": `Remove AI mapping for ${finding.name}` }, "Remove")))) : null,
-          entries.length ? h("div", { className: "ai-results", "aria-label": "Previously logged exercises" }, entries.map((entry) => {
-            const exercise = exerciseById[entry.exerciseId];
-            return h("div", { className: "ai-result", key: entry.id },
-              h("div", null,
-                h("div", { className: "ai-result-name" }, `${exercise.name} · logged`),
-                h("div", { className: "ai-result-muscles" }, exercise.muscles.map((muscle) => muscleLabels[muscle]).join(" · ")),
-                h("div", { className: "ai-result-details" }, `${entry.sets} sets · ${entry.reps} reps · ${entry.weight} lb`)),
-              h("button", { type: "button", className: "ai-remove", onClick: () => onRemoveEntry(entry.id), "aria-label": `Remove ${exercise.name}` }, "Remove"));
-          })) : null);
+      function WorkoutEntryForm({ exerciseId, setExerciseId, sets, setSets, reps, setReps, weight, setWeight, onSubmit, editing, error }) {
+        return h("form", { id: "workout-form", className: "entry-form", onSubmit, noValidate: true },
+          h("div", { className: "form-grid" },
+            h("div", { className: "field" },
+              h("label", { htmlFor: "exercise" }, "Exercise"),
+              h("select", { id: "exercise", value: exerciseId, onChange: (event) => setExerciseId(event.target.value) },
+                h("option", { value: "" }, "Choose a workout"),
+                exerciseLibrary.map((exercise) => h("option", { key: exercise.id, value: exercise.id }, `${exercise.name} · ${exercise.equipment}`)))),
+            h("div", { className: "field" }, h("label", { htmlFor: "sets" }, "Sets"), h("input", { id: "sets", type: "number", min: "1", step: "1", value: sets, onChange: (event) => setSets(event.target.value), required: true })),
+            h("div", { className: "field" }, h("label", { htmlFor: "reps" }, "Reps / set"), h("input", { id: "reps", type: "number", min: "1", step: "1", value: reps, onChange: (event) => setReps(event.target.value), required: true })),
+            h("div", { className: "field" }, h("label", { htmlFor: "weight" }, "Weight (lb)"), h("input", { id: "weight", type: "number", min: "0", step: "0.5", value: weight, onChange: (event) => setWeight(event.target.value), required: true })),
+            h("button", { className: "primary-button", type: "submit" }, editing ? "Save changes" : "Add workout")),
+          h("p", { className: "form-error", role: "alert" }, error));
+      }
+
+      function WorkoutEntryList({ entries, onEdit, onRemove }) {
+        const rows = entries.map((entry) => {
+          const exercise = exerciseById[entry.exerciseId];
+          return h("article", { className: "exercise-row", key: entry.id },
+            h("div", { className: "exercise-name" }, exercise.name,
+              h("span", { className: "exercise-category" }, `${exercise.category} · ${exercise.equipment}`)),
+            h("div", { className: "row-detail" }, h("small", null, "Sets"), entry.sets),
+            h("div", { className: "row-detail" }, h("small", null, "Reps"), entry.reps),
+            h("div", { className: "row-detail" }, h("small", null, "Load"), `${entry.weight} lb`),
+            h("div", { className: "row-actions" },
+              h("button", { type: "button", className: "text-button", onClick: () => onEdit(entry), "aria-label": `Edit ${exercise.name}` }, "Edit"),
+              h("button", { type: "button", className: "text-button remove-button", onClick: () => onRemove(entry.id), "aria-label": `Remove ${exercise.name}` }, "Remove")));
+        });
+        return h("div", { className: "exercise-list", "aria-live": "polite" },
+          rows.length ? rows : h("div", { className: "list-empty" }, "No exercises logged yet."));
+      }
+
+      function RecommendationPanel({ recommendation, onRecommend, onChoose }) {
+        const suggestedRows = recommendation ? recommendation.exercises.map((exercise) => h("article", {
+          className: "recommend-row",
+          key: exercise.id
+        },
+          h("div", null,
+            h("div", { className: "recommend-name" }, exercise.name),
+            h("div", { className: "recommend-detail" }, exercise.muscles.map((muscle) => muscleLabels[muscle]).join(" · "))),
+          h("button", { type: "button", className: "recommend-button", onClick: () => onChoose(exercise.id) }, "Choose"))) : [];
+        return h("section", { className: "panel recommend-panel", "aria-labelledby": "recommend-heading" },
+          h("div", { className: "workout-top" },
+            h("div", null,
+              h("h2", { id: "recommend-heading", style: { margin: 0, fontSize: "16px" } }, "Next workout suggestions"),
+              h("p", { className: "panel-kicker" }, "A simple coverage-based pick from your recent sessions")),
+            h("button", { type: "button", className: "split-button", onClick: onRecommend }, "Refresh suggestions")),
+          recommendation
+            ? h(React.Fragment, null,
+              h("p", { className: "recommend-note" }, recommendation.reason),
+              h("div", { className: "recommend-list" }, suggestedRows))
+            : h("p", { className: "recommend-empty" }, "Add workouts to build a history-based recommendation."));
       }
 
       function WorkoutHistory({ sessions }) {
@@ -383,40 +339,11 @@
           h("div", { className: "history-list" }, sessions.length ? sessions.map(renderHistorySession) : emptyState));
       }
 
-      function WorkoutSplit({ split, isLoading, message, onRecommend }) {
-        const header = h("div", { className: "workout-top" },
-          h("div", null,
-            h("h2", { id: "split-heading", style: { margin: 0, fontSize: "16px" } }, "Recommended training split"),
-            h("p", { className: "panel-kicker" }, "Prioritize muscle groups less represented in recent sessions")),
-          h("button", { type: "button", className: "split-button", onClick: onRecommend, disabled: isLoading }, isLoading ? "Building split..." : "Recommend a split"));
-        const days = split ? split.days.map((day, index) => {
-          const exercises = day.exercises.map((exercise, exerciseIndex) => h("li", {
-            className: "split-exercise",
-            key: `${exercise.name}-${exerciseIndex}`
-          }, h("span", null, exercise.name), h("small", null, `${exercise.sets} sets x ${exercise.reps} reps`)));
-          return h("article", { className: "split-day", key: `${day.name}-${index}` },
-            h("h3", null, day.name),
-            h("p", { className: "split-focus" }, day.focusMuscles.map((muscle) => muscleLabels[muscle]).join(" · ")),
-            h("ul", { className: "split-exercises" }, exercises));
-        }) : [];
-        const recommendation = split && h(React.Fragment, null,
-          h("p", { className: "split-summary" }, split.summary),
-          h("div", { className: "split-days" }, days));
-
-        return h("section", { className: "panel split-panel", "aria-labelledby": "split-heading" },
-          header,
-          h("p", { className: "split-message", role: "status", "aria-live": "polite" }, message || "Focus is based on recent session coverage, not a diagnosis of long-term undertraining."),
-          recommendation);
-      }
-
-      function MuscleMap({ entries, aiFindings, view }) {
-        const data = [
-          ...entries.map((entry) => ({
+      function MuscleMap({ entries, view }) {
+        const data = entries.map((entry) => ({
           name: exerciseById[entry.exerciseId].name,
           muscles: exerciseById[entry.exerciseId].muscles
-          })),
-          ...aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
-        ];
+        }));
         return h("div", { className: "body-model", "aria-label": `${view} muscle map` },
           h(Model, {
             data,
@@ -430,146 +357,119 @@
 
       function App() {
         const [entries, setEntries] = React.useState(readSavedWorkout);
-        const [aiFindings, setAiFindings] = React.useState(readSavedAiFindings);
         const [sessions, setSessions] = React.useState(readWorkoutHistory);
         const [view, setView] = React.useState("anterior");
-        const [aiDescription, setAiDescription] = React.useState("");
-        const [isAnalyzing, setIsAnalyzing] = React.useState(false);
-        const [aiMessage, setAiMessage] = React.useState("");
-        const [split, setSplit] = React.useState(null);
-        const [isGeneratingSplit, setIsGeneratingSplit] = React.useState(false);
-        const [splitMessage, setSplitMessage] = React.useState("");
+        const [exerciseId, setExerciseId] = React.useState("");
+        const [sets, setSets] = React.useState("3");
+        const [reps, setReps] = React.useState("8");
+        const [weight, setWeight] = React.useState("0");
+        const [editingId, setEditingId] = React.useState(null);
+        const [error, setError] = React.useState("");
+        const [recommendation, setRecommendation] = React.useState(null);
 
         React.useEffect(() => {
-          try { localStorage.setItem(storageKey, JSON.stringify({ version: 1, entries, aiFindings })); } catch {}
-        }, [entries, aiFindings]);
+          try { localStorage.setItem(storageKey, JSON.stringify({ version: 1, entries })); } catch {}
+        }, [entries]);
         React.useEffect(() => {
           try { localStorage.setItem(historyStorageKey, JSON.stringify({ version: 1, sessions })); } catch {}
         }, [sessions]);
 
-        const trained = new Set([
-          ...entries.flatMap((entry) => exerciseById[entry.exerciseId].muscles),
-          ...aiFindings.flatMap((finding) => finding.muscles)
-        ]);
-        const totalSets = entries.reduce((sum, entry) => sum + entry.sets, 0) +
-          aiFindings.reduce((sum, finding) => sum + (finding.sets || 0), 0);
-        const totalReps = entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0) +
-          aiFindings.reduce((sum, finding) => sum + (finding.sets && finding.reps ? finding.sets * finding.reps : 0), 0);
-        const distinctExercises = new Set([
-          ...entries.map((entry) => exerciseById[entry.exerciseId].name.toLowerCase()),
-          ...aiFindings.map((finding) => finding.name.toLowerCase())
-        ]).size;
+        const trained = new Set(entries.flatMap((entry) => exerciseById[entry.exerciseId].muscles));
+        const totalSets = entries.reduce((sum, entry) => sum + entry.sets, 0);
+        const totalReps = entries.reduce((sum, entry) => sum + entry.sets * entry.reps, 0);
+        const distinctExercises = new Set(entries.map((entry) => entry.exerciseId)).size;
 
-        async function analyzeWorkout(event) {
-          event.preventDefault();
-          const workout = aiDescription.trim();
-          if (!workout) return;
-          if (location.protocol === "file:") {
-            setAiMessage("Start the RepRadar server with npm run dev_start, then open http://localhost:3000 to use Gemma.");
-            return;
-          }
-          setIsAnalyzing(true);
-          setAiMessage("");
-          try {
-            const response = await fetch("/api/analyze-workout", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ workout })
-            });
-            const payload = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(payload.error || "Gemma could not analyze this workout.");
-            if (!Array.isArray(payload.exercises) || !payload.exercises.length || payload.exercises.length > 20) {
-              throw new Error("No exercises were identified. Try listing the exercises more clearly.");
-            }
-            const findings = payload.exercises.map((exercise) => {
-              if (!exercise || typeof exercise.name !== "string" || !exercise.name.trim() ||
-                !Array.isArray(exercise.muscles) || exercise.muscles.some((muscle) => !supportedMuscles.includes(muscle)) ||
-                (exercise.sets != null && (!Number.isInteger(exercise.sets) || exercise.sets < 1)) ||
-                (exercise.reps != null && (!Number.isInteger(exercise.reps) || exercise.reps < 1)) ||
-                (exercise.weightLb != null && (!Number.isFinite(exercise.weightLb) || exercise.weightLb < 0))) {
-                throw new Error("Gemma returned an unsupported muscle mapping. Please try again.");
-              }
-              return {
-                id: makeId(),
-                name: exercise.name.trim(),
-                muscles: [...new Set(exercise.muscles)],
-                sets: exercise.sets ?? null,
-                reps: exercise.reps ?? null,
-                weightLb: exercise.weightLb ?? null
-              };
-            });
-            setAiFindings(findings);
-            setAiMessage(`Mapped ${findings.length} ${findings.length === 1 ? "exercise" : "exercises"}. Missing volume details stay unknown.`);
-          } catch (error) {
-            setAiMessage(error.message || "Could not reach the Gemma service. Check that the server is running.");
-          } finally {
-            setIsAnalyzing(false);
-          }
+        function resetForm() {
+          setExerciseId("");
+          setSets("3");
+          setReps("8");
+          setWeight("0");
+          setEditingId(null);
+          setError("");
         }
 
-        async function recommendSplit() {
-          if (location.protocol === "file:") {
-            setSplitMessage("Start the RepRadar server with npm run dev_start, then open http://localhost:3000 to use Gemma.");
-            return;
-          }
-          setIsGeneratingSplit(true);
-          setSplitMessage("");
-          try {
-            const cutoff = Date.now() - 28 * 24 * 60 * 60 * 1000;
-            const recentSessions = sessions
-              .filter((session) => Date.parse(session.completedAt) >= cutoff)
-              .slice(0, 10)
-              .map((session) => ({
-                completedAt: session.completedAt,
-                exercises: [
-                  ...session.entries.map((entry) => ({ name: exerciseById[entry.exerciseId].name, muscles: exerciseById[entry.exerciseId].muscles })),
-                  ...session.aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
-                ]
-              }));
-            const activeExercises = [
-              ...entries.map((entry) => ({ name: exerciseById[entry.exerciseId].name, muscles: exerciseById[entry.exerciseId].muscles })),
-              ...aiFindings.map((finding) => ({ name: finding.name, muscles: finding.muscles }))
-            ];
-            if (activeExercises.length) recentSessions.unshift({ completedAt: new Date().toISOString(), exercises: activeExercises });
+        function submitWorkout(event) {
+          event.preventDefault();
+          const numericSets = Number(sets);
+          const numericReps = Number(reps);
+          const numericWeight = Number(weight);
+          if (!exerciseById[exerciseId]) return setError("Choose an exercise first.");
+          if (!Number.isInteger(numericSets) || numericSets < 1) return setError("Sets must be a whole number above zero.");
+          if (!Number.isInteger(numericReps) || numericReps < 1) return setError("Reps must be a whole number above zero.");
+          if (!Number.isFinite(numericWeight) || numericWeight < 0) return setError("Weight must be zero or greater.");
 
-            const response = await fetch("/api/recommend-split", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ sessions: recentSessions })
-            });
-            const payload = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(payload.error || "Gemma could not recommend a split.");
-            if (!payload || typeof payload.summary !== "string" || !Array.isArray(payload.days) || payload.days.length < 2 || payload.days.length > 6) {
-              throw new Error("Gemma returned an invalid workout split.");
-            }
-            for (const day of payload.days) {
-              if (!day || typeof day.name !== "string" || !Array.isArray(day.focusMuscles) ||
-                day.focusMuscles.some((muscle) => !supportedMuscles.includes(muscle)) || !Array.isArray(day.exercises) ||
-                day.exercises.some((exercise) => !exercise || typeof exercise.name !== "string" ||
-                  !Array.isArray(exercise.muscles) || exercise.muscles.some((muscle) => !supportedMuscles.includes(muscle)) ||
-                  !Number.isInteger(exercise.sets) || !Number.isInteger(exercise.reps))) {
-                throw new Error("Gemma returned an unsupported workout split. Please try again.");
-              }
-            }
-            setSplit(payload);
-          } catch (error) {
-            setSplitMessage(error.message || "Could not reach Gemma. Check that the server is running.");
-          } finally {
-            setIsGeneratingSplit(false);
+          const entry = { id: editingId || makeId(), exerciseId, sets: numericSets, reps: numericReps, weight: numericWeight, unit: "lb" };
+          setEntries((current) => editingId
+            ? current.map((item) => item.id === editingId ? entry : item)
+            : [...current, entry]);
+          resetForm();
+        }
+
+        function editEntry(entry) {
+          setEditingId(entry.id);
+          setExerciseId(entry.exerciseId);
+          setSets(String(entry.sets));
+          setReps(String(entry.reps));
+          setWeight(String(entry.weight));
+          setError("");
+          document.getElementById("workout-form").scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        function recommendWorkout() {
+          const recentCutoff = Date.now() - 28 * 24 * 60 * 60 * 1000;
+          const recentSessions = sessions.filter((session) => Date.parse(session.completedAt) >= recentCutoff);
+          const coveredBySession = recentSessions.map((session) =>
+            new Set(session.entries.flatMap((entry) => exerciseById[entry.exerciseId].muscles)));
+          if (entries.length) coveredBySession.unshift(new Set(entries.flatMap((entry) => exerciseById[entry.exerciseId].muscles)));
+
+          const mappedMuscles = [...new Set(exerciseLibrary.flatMap((exercise) => exercise.muscles))];
+          const exposureCount = Object.fromEntries(mappedMuscles.map((muscle) => [muscle, 0]));
+          coveredBySession.forEach((muscles) => muscles.forEach((muscle) => { exposureCount[muscle] += 1; }));
+          const priority = mappedMuscles.sort((first, second) => exposureCount[first] - exposureCount[second]);
+          const covered = new Set();
+          const selectedIds = new Set();
+          const suggested = [];
+
+          for (const targetMuscle of priority) {
+            if (suggested.length >= 4) break;
+            if (covered.has(targetMuscle)) continue;
+            const candidates = exerciseLibrary
+              .filter((exercise) => exercise.muscles.includes(targetMuscle) && !selectedIds.has(exercise.id))
+              .sort((first, second) => {
+                const firstExposure = first.muscles.reduce((sum, muscle) => sum + exposureCount[muscle], 0);
+                const secondExposure = second.muscles.reduce((sum, muscle) => sum + exposureCount[muscle], 0);
+                return firstExposure - secondExposure || second.muscles.length - first.muscles.length;
+              });
+            const choice = candidates[0];
+            if (!choice) continue;
+            suggested.push(choice);
+            selectedIds.add(choice.id);
+            choice.muscles.forEach((muscle) => covered.add(muscle));
           }
+
+          const focusMuscles = [...new Set(suggested.flatMap((exercise) => exercise.muscles))];
+          const reason = recentSessions.length
+            ? `Suggested from ${recentSessions.length} completed ${recentSessions.length === 1 ? "session" : "sessions"} in the last 28 days. Least-seen groups are prioritized; this is a planning aid, not an undertraining diagnosis.`
+            : "No completed sessions in the last 28 days. This balanced starter selection covers several major muscle groups.";
+          setRecommendation({ exercises: suggested, focusMuscles, reason });
+        }
+
+        function chooseExercise(id) {
+          setExerciseId(id);
+          setEditingId(null);
+          setError("");
+          document.getElementById("workout-form").scrollIntoView({ behavior: "smooth", block: "center" });
         }
 
         function finishWorkout() {
-          if (!entries.length && !aiFindings.length) return;
+          if (!entries.length) return;
           setSessions((current) => [{
             id: makeId(),
             completedAt: new Date().toISOString(),
-            entries: entries.map((entry) => ({ ...entry })),
-            aiFindings: aiFindings.map((finding) => ({ ...finding, muscles: [...finding.muscles] }))
+            entries: entries.map((entry) => ({ ...entry }))
           }, ...current]);
           setEntries([]);
-          setAiFindings([]);
-          setAiMessage("");
+          resetForm();
         }
 
         const stat = (value, label) => h("div", { className: "stat", key: label },
@@ -587,7 +487,7 @@
           h("div", { className: "panel-heading" },
             h("div", null,
               h("h2", null, "Muscle activation"),
-              h("p", { className: "panel-kicker" }, entries.length || aiFindings.length ? "Highlights reflect today's logged and AI-mapped work" : "Log an exercise to light up your map")),
+              h("p", { className: "panel-kicker" }, entries.length ? "Highlights reflect today's selected exercises" : "Choose an exercise to light up your map")),
             h("div", { className: "segmented", role: "group", "aria-label": "Anatomical view" },
               ["anterior", "posterior"].map((side) => h("button", {
                 key: side,
@@ -596,14 +496,14 @@
                 "aria-pressed": view === side,
                 onClick: () => setView(side)
               }, side === "anterior" ? "Front" : "Back")))),
-          h("div", { className: "model-wrap" }, h(MuscleMap, { entries, aiFindings, view })),
-          !entries.length && !aiFindings.length && h("div", { className: "map-empty" },
-            h("strong", null, "Your session starts here"), "Describe a workout to map its muscles."),
-          h("div", { className: "model-legend" }, h("span", { className: "legend-swatch" }), "Logged / AI-mapped muscle groups"));
+          h("div", { className: "model-wrap" }, h(MuscleMap, { entries, view })),
+          !entries.length && h("div", { className: "map-empty" },
+            h("strong", null, "Your session starts here"), "Choose an exercise below to map its muscles."),
+          h("div", { className: "model-legend" }, h("span", { className: "legend-swatch" }), "Current workout muscle groups"));
 
         const summaryPanel = h("article", { className: "panel summary-panel" },
           h("div", { className: "panel-heading" }, h("div", null,
-            h("h2", null, "Session totals"), h("p", { className: "panel-kicker" }, "Details stated in the workout log"))),
+            h("h2", null, "Session totals"), h("p", { className: "panel-kicker" }, "Current workout only"))),
           h("div", { className: "stats" },
             stat(distinctExercises, "Exercises"), stat(totalSets, "Known sets"),
             stat(totalReps, "Known reps"), stat(trained.size, "Muscle groups")));
@@ -616,31 +516,41 @@
             key: muscle,
             className: `muscle-chip${trained.has(muscle) ? " is-trained" : ""}`
           }, muscleLabels[muscle]))),
-          h("p", { className: "coverage-note" }, "Unhighlighted groups were not mapped in this session; this is not a long-term training diagnosis."));
+          h("p", { className: "coverage-note" }, "Unhighlighted groups were not in this workout; this is a session view, not a long-term training diagnosis."));
 
         const workoutPanel = h("section", { className: "panel workout-panel", "aria-labelledby": "workout-heading" },
           h("div", { className: "workout-top" },
             h("div", null,
               h("h2", { id: "workout-heading", style: { margin: 0, fontSize: "16px" } }, "Workout log"),
-              h("p", { className: "panel-kicker" }, "Describe the session and let Gemma map it")),
+              h("p", { className: "panel-kicker" }, "Choose exercises, then record the work you completed")),
             h("div", { className: "workout-actions" },
-              h("span", { className: "entry-count" }, `${entries.length} saved · ${aiFindings.length} AI mapped`),
+              h("span", { className: "entry-count" }, `${entries.length} ${entries.length === 1 ? "exercise" : "exercises"}`),
               h("button", {
                 type: "button",
                 className: "finish-button",
                 onClick: finishWorkout,
-                disabled: !entries.length && !aiFindings.length
+                disabled: !entries.length
               }, "Finish & save"))),
-          h(WorkoutTextMapper, {
-            description: aiDescription,
-            onDescriptionChange: setAiDescription,
-            onSubmit: analyzeWorkout,
-            isAnalyzing,
-            message: aiMessage,
-            findings: aiFindings,
+          h(WorkoutEntryForm, {
+            exerciseId,
+            setExerciseId,
+            sets,
+            setSets,
+            reps,
+            setReps,
+            weight,
+            setWeight,
+            onSubmit: submitWorkout,
+            editing: Boolean(editingId),
+            error
+          }),
+          h(WorkoutEntryList, {
             entries,
-            onRemoveFinding: (id) => setAiFindings((current) => current.filter((finding) => finding.id !== id)),
-            onRemoveEntry: (id) => setEntries((current) => current.filter((entry) => entry.id !== id))
+            onEdit: editEntry,
+            onRemove: (id) => {
+              setEntries((current) => current.filter((entry) => entry.id !== id));
+              if (editingId === id) resetForm();
+            }
           }));
 
         const dashboard = h("section", { className: "dashboard", "aria-label": "Workout overview" },
@@ -659,9 +569,9 @@
             pageHeading,
             dashboard,
             workoutPanel,
-            h(WorkoutSplit, { split, isLoading: isGeneratingSplit, message: splitMessage, onRecommend: recommendSplit }),
+            h(RecommendationPanel, { recommendation, onRecommend: recommendWorkout, onChoose: chooseExercise }),
             h(WorkoutHistory, { sessions })),
-          h("footer", { className: "shell" }, "RepRadar saves active and completed sessions in this browser. AI mapping and split recommendations are estimates, not medical guidance."));
+          h("footer", { className: "shell" }, "RepRadar saves active and completed workouts in this browser. Recommendations use recent session coverage and are not medical advice."));
       }
 
       createRoot(document.getElementById("root")).render(h(App));
