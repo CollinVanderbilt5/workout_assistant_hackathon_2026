@@ -10,7 +10,6 @@ MuscleMap is an interactive fitness tracker that visualizes your training progre
 - **Workout Tracking** — Log workouts and record exercises, sets, and reps.
 - **Automatic Muscle Tracking** — Automatically estimate which muscle groups are trained based on the exercises you perform.
 - **Visual Training Insights** — Quickly identify well-trained, undertrained, and neglected muscle groups.
-- **AI-Powered Workout Recommendations** — Get personalized workout suggestions and training splits based on your recent activity and goals.
 - **Training History** — Track your workouts over time and monitor changes in your training balance.
 
 ## How It Works
@@ -18,7 +17,7 @@ MuscleMap is an interactive fitness tracker that visualizes your training progre
 1. **Log a workout.** Enter your exercises manually or describe your workout in natural language.
 2. **Map exercises to muscles.** MuscleMap estimates the contribution of each exercise to the relevant muscle groups.
 3. **Visualize your training.** The 3D model updates to show which muscles are receiving sufficient attention and which may be falling behind.
-4. **Plan your next session.** AI-powered recommendations help you choose workouts that complement your recent training and goals.
+4. **Plan your next session.** See what to do next. 
 
 ## Technology
 
